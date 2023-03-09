@@ -14,17 +14,17 @@
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  column-gap: 2rem;
+  margin-right: 2rem;
+  background-color: antiquewhite;
+  font-size: 15px;
+  text-align: center;
+  border: 3px solid blue;
 }
 
-.App-link {
+.App-link :focus {
   color: #61dafb;
 }
 
