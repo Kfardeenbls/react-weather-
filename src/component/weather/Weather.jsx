@@ -1,10 +1,11 @@
-import React from "react";
+import React, { memo } from "react";
 import styled from "styled-components";
-import { WiDaySunny } from "weather-icons-react";
+
+import { WeatherIcons } from "../../App";
 
 const BoxDetails = styled.div`
   border: 3px solid blue;
-  width: 80%;
+  width: 94%;
   padding: 1rem;
   padding-top: 0px;
   border-radius: 3rem;
@@ -38,12 +39,14 @@ const Center = styled.div`
     align-items: center;
     font-size: 5rem;
   }
-  div > p {
-    padding-top: 21px;
-  }
   p > span {
     font-size: 1rem;
   }
+`;
+const WeathrIcons = styled.div`
+  width: 100px;
+  height: 100px;
+  margin: 5px auto;
 `;
 const Para = styled.div`
   p {
@@ -83,61 +86,52 @@ const Col2 = styled.div`
   }
 `;
 
-const Weather = ({ prop }) => {
-  const { weather } = prop;
+const Weather = (prop) => {
+  const { weather, time } = prop;
+
   // calculate Sunrise & Sunset timing...
-  console.log(weather);
-  //   const sunriseTime = new Date(weather.sys.sunrise * 1000).toLocaleTimeString(
-  //     [],
-  //     {
-  //       hour: "2-digit",
-  //       minute: "2-digit",
-  //     }
-  //   );
-  //   const sunsetTime = new Date(weather.sys.sunset * 1000).toLocaleTimeString(
-  //     [],
-  //     {
-  //       hour: "2-digit",
-  //       minute: "2-digit",
-  //     }
-  //   );
-  //   //Calculate Wind speed in km..
-  //   const windSpeed = weather.wind.speed;
-  //   const windSpeedKm = (windSpeed * 3600) / 1000;
+  const sunriseTime = new Date(weather.sys.sunrise * 1000).toLocaleTimeString(
+    [],
+    {
+      hour: "2-digit",
+      minute: "2-digit",
+    }
+  );
+  const sunsetTime = new Date(weather.sys.sunset * 1000).toLocaleTimeString(
+    [],
+    {
+      hour: "2-digit",
+      minute: "2-digit",
+    }
+  );
+  //Calculate Wind speed in km..
+  const windSpeed = weather.wind.speed;
+  const windSpeedKm = (windSpeed * 3600) / 1000;
 
-  //   //Calculate pressure in hpa..
-  //   const pressure = weather.main.pressure;
-  //   const pressureHpa = pressure / 100;
+  //Calculate pressure in hpa..
+  const pressure = weather.main.pressure;
+  const pressureHpa = pressure / 100;
 
-  //   //Calcutate Visibility in Km..
-  //   const visibility = weather.visibility;
-  //   const visibilityKm = visibility / 1000;
+  //Calcutate Visibility in Km..
+  const visibility = weather.visibility;
+  const visibilityKm = visibility / 1000;
 
-  //   //Calcutate tempreture in ratio...
-  //   //   const temperature = weather.main.temp;
-  //   //   const temperatureRatio = (temperature - 273.15) / 100;
-  //   const temperature = weather.main.temp;
-  //   const temperatureRatio = (temperature - 273.15) / 100;
-  const temperatureRatio = "12/21";
-  const pressureHpa = "21";
-  const visibilityKm = "21";
-  const windSpeedKm = "21";
-  const sunriseTime = "21";
-  const sunsetTime = "12";
+  //Calcutate tempreture in ratio...
+  const tempMax = Math.floor((weather.main.temp_max - 273.15) * 10) / 10;
+  const tempMin = Math.floor((weather.main.temp_min - 273.15) * 10) / 10;
 
   return (
     <div>
       <BoxDetails>
         <h3>
-          {weather?.name}, {weather?.sys?.country}. Weather
+          {weather?.name}, {weather?.sys?.country}. weather
         </h3>
-        <p>As of 7:08:45 AM/PM</p>
+        <p>As of {time}</p>
         <Center>
           <p>{`${Math.floor(weather?.main?.temp - 273)}°C`}</p>
           <div>
-            <p>
-              <WiDaySunny />
-            </p>
+            {/* {WeatherIcons[weather?.weather[0].icon]} */}
+            <WeathrIcons>{WeatherIcons[weather?.weather[0].icon]} </WeathrIcons>
             <span>{` | ${weather?.weather[0].description}`}</span>
           </div>
         </Center>
@@ -149,7 +143,11 @@ const Weather = ({ prop }) => {
         <Col1>
           <p>
             <>High/Low </>
-            <span>{temperatureRatio}</span>
+            <span>
+              {tempMax}
+              {"/"}
+              {tempMin}
+            </span>
           </p>
           <p>
             <>Humidity </>
@@ -158,7 +156,7 @@ const Weather = ({ prop }) => {
 
           <p>
             <>Pressure </>
-            <span>{pressureHpa.toFixed(1)}hpa</span>
+            <span>{pressureHpa}hpa</span>
           </p>
 
           <p>
@@ -169,7 +167,7 @@ const Weather = ({ prop }) => {
         <Col2>
           <p>
             <>Wind </>
-            <span>{windSpeedKm.toFixed(1)}km/hr</span>
+            <span>{windSpeedKm}km/hr</span>
           </p>
 
           <p>
@@ -194,4 +192,4 @@ const Weather = ({ prop }) => {
   );
 };
 
-export default Weather;
+export default memo(Weather);
