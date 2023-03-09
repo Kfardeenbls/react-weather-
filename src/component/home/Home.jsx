@@ -52,33 +52,29 @@ const Home = (props) => {
   const [country, setCountry] = useState();
   const [weather, setWeather] = useState();
   const [showWeather, setShowWeather] = useState(false);
-  // const [enable, setEnable] = useState(false);
-  const [time, setTime] = useState(0);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const fetchweatherData = async () => {
       try {
-        const event = new Date().getTime();
-        setTime(event);
         const response = await axios.get(
-          `https://api.openweathermap.org/data/2.5/weather?q=${city}&${country}&appid=${apikey}`
+          `https://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${apikey}`
         );
         setWeather(response.data);
         setShowWeather(true);
-        console.log(response.data);
+        // console.log(response.data);
       } catch (error) {
-        console.log(error);
+        // console.log(error);
+        if (error) {
+          alert("Please check the input field");
+        }
+      }
+      if (country !== weather.sys.country || !country) {
+        return setCountry(weather.sys.country);
       }
     };
     fetchweatherData();
-    if (country !== weather.sys.country) {
-      // return setEnable(true);
-      return setCountry(weather.sys.country);
-    } else if (!country) {
-      return setCountry(weather.sys.country);
-    }
   };
 
   return (
@@ -105,7 +101,7 @@ const Home = (props) => {
           <button type="submit">Submit</button>
         </form>
       </Header>
-      {showWeather && <Weather weather={weather} time={time} />}
+      {showWeather && <Weather weather={weather} />}
     </Wrapper>
   );
 };

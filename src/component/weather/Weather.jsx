@@ -86,7 +86,13 @@ const Col2 = styled.div`
 `;
 
 const Weather = (prop) => {
-  const { weather, time } = prop;
+  const { weather } = prop;
+  //
+  const utcTimestamp = weather.dt;
+  const date = new Date(utcTimestamp * 1000).getTimezoneOffset();
+  const localTimestamp = utcTimestamp - date * 60;
+  const localDate = new Date(localTimestamp * 1000);
+  const localDateString = localDate.toLocaleTimeString();
 
   //
   function capitalizeFirstLetter(string) {
@@ -94,6 +100,7 @@ const Weather = (prop) => {
   }
 
   const newString = capitalizeFirstLetter(weather.weather[0].description);
+
   // calculate Sunrise & Sunset timing...
   const sunriseTime = new Date(weather.sys.sunrise * 1000).toLocaleTimeString(
     [],
@@ -131,9 +138,7 @@ const Weather = (prop) => {
         <h3>
           {weather?.name}, {weather?.sys?.country}. weather
         </h3>
-        <p>
-          As of {new Date(time + weather?.timezone).toLocaleTimeString("en-US")}
-        </p>
+        <p>As of {localDateString}</p>
         <Center>
           <p>{`${Math.floor(weather?.main?.temp - 273)}°C`}</p>
           <div>

@@ -9,10 +9,7 @@ import { RainIcon } from "./component/icons/RainIcon";
 import { RainNightIcon } from "./component/icons/RainNightIcon";
 import { StormIcon } from "./component/icons/StormIcon";
 import { SunnyIcon } from "./component/icons/SunnyIcon";
-// import { PressureIcon } from "./component/icons/PressureIcon";
-// import { TempIcon } from "./component/icons/TempIcon";
-// import { WindIcon } from "./component/icons/WindIcon";
-// import { HumidityIcon } from "./component/icons/HumidityIcon";
+import { SmokeIcon } from "./component/icons/SmokeIcon";
 
 export const WeatherIcons = {
   "01d": <SunnyIcon />,
@@ -29,6 +26,7 @@ export const WeatherIcons = {
   "10n": <RainNightIcon />,
   "11d": <StormIcon />,
   "11n": <StormIcon />,
+  "50n": <SmokeIcon />,
 };
 
 const App = () => {
