@@ -49,20 +49,21 @@ const apikey = "d2c261391f52b4be3798da8d6e043660";
 
 const Home = (props) => {
   const [city, setCity] = useState("");
-  const [country, setCountry] = useState("");
+  const [country, setCountry] = useState();
   const [weather, setWeather] = useState();
   const [showWeather, setShowWeather] = useState(false);
-  const [time, setTime] = useState("");
+  // const [enable, setEnable] = useState(false);
+  const [time, setTime] = useState(0);
 
-  const handleClick = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     const fetchweatherData = async () => {
       try {
-        const event = new Date();
-        setTime(event.toLocaleTimeString("en-US"));
+        const event = new Date().getTime();
+        setTime(event);
         const response = await axios.get(
-          `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apikey}`
+          `https://api.openweathermap.org/data/2.5/weather?q=${city}&${country}&appid=${apikey}`
         );
         setWeather(response.data);
         setShowWeather(true);
@@ -72,19 +73,26 @@ const Home = (props) => {
       }
     };
     fetchweatherData();
+    if (country !== weather.sys.country) {
+      // return setEnable(true);
+      return setCountry(weather.sys.country);
+    } else if (!country) {
+      return setCountry(weather.sys.country);
+    }
   };
 
   return (
     <Wrapper>
       <Header>
         <h1> Weather App</h1>
-        <form>
+        <form onSubmit={handleSubmit}>
           <input
             type="text"
             placeholder="Enter City:"
             name="city"
             value={city}
             onChange={(e) => setCity(e.target.value)}
+            required
           />
           <input
             type="text"
@@ -92,10 +100,9 @@ const Home = (props) => {
             name="country"
             value={country}
             onChange={(e) => setCountry(e.target.value)}
+            required
           />
-          <button type="submit" onClick={handleClick}>
-            Submit
-          </button>
+          <button type="submit">Submit</button>
         </form>
       </Header>
       {showWeather && <Weather weather={weather} time={time} />}

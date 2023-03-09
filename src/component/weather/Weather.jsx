@@ -1,6 +1,5 @@
 import React, { memo } from "react";
 import styled from "styled-components";
-
 import { WeatherIcons } from "../../App";
 
 const BoxDetails = styled.div`
@@ -43,10 +42,10 @@ const Center = styled.div`
     font-size: 1rem;
   }
 `;
-const WeathrIcons = styled.div`
-  width: 100px;
-  height: 100px;
-  margin: 5px auto;
+const WeathrIcons = styled.span`
+  width: 150px;
+  height: 150px;
+  margin: 10px auto;
 `;
 const Para = styled.div`
   p {
@@ -89,6 +88,12 @@ const Col2 = styled.div`
 const Weather = (prop) => {
   const { weather, time } = prop;
 
+  //
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
+  const newString = capitalizeFirstLetter(weather.weather[0].description);
   // calculate Sunrise & Sunset timing...
   const sunriseTime = new Date(weather.sys.sunrise * 1000).toLocaleTimeString(
     [],
@@ -117,8 +122,8 @@ const Weather = (prop) => {
   const visibilityKm = visibility / 1000;
 
   //Calcutate tempreture in ratio...
-  const tempMax = Math.floor((weather.main.temp_max - 273.15) * 10) / 10;
-  const tempMin = Math.floor((weather.main.temp_min - 273.15) * 10) / 10;
+  const tempMax = Math.floor(weather.main.temp_max - 273.15);
+  const tempMin = Math.floor(weather.main.temp_min - 273.15);
 
   return (
     <div>
@@ -126,17 +131,22 @@ const Weather = (prop) => {
         <h3>
           {weather?.name}, {weather?.sys?.country}. weather
         </h3>
-        <p>As of {time}</p>
+        <p>
+          As of {new Date(time + weather?.timezone).toLocaleTimeString("en-US")}
+        </p>
         <Center>
           <p>{`${Math.floor(weather?.main?.temp - 273)}°C`}</p>
           <div>
             {/* {WeatherIcons[weather?.weather[0].icon]} */}
             <WeathrIcons>{WeatherIcons[weather?.weather[0].icon]} </WeathrIcons>
-            <span>{` | ${weather?.weather[0].description}`}</span>
+            <span>
+              {"|"}
+              {newString}
+            </span>
           </div>
         </Center>
         <Para>
-          <p>haze</p>
+          <p>{`${weather?.weather[0].description}`}</p>
         </Para>
       </BoxDetails>
       <div style={{ marginTop: "1rem" }}>
@@ -156,7 +166,7 @@ const Weather = (prop) => {
 
           <p>
             <>Pressure </>
-            <span>{pressureHpa}hpa</span>
+            <span>{pressureHpa.toFixed(1)}hpa</span>
           </p>
 
           <p>
@@ -167,7 +177,7 @@ const Weather = (prop) => {
         <Col2>
           <p>
             <>Wind </>
-            <span>{windSpeedKm}km/hr</span>
+            <span>{windSpeedKm.toFixed(1)}km/hr</span>
           </p>
 
           <p>
