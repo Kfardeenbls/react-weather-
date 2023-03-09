@@ -1,6 +1,7 @@
 import React, { memo } from "react";
 import styled from "styled-components";
 import { WeatherIcons } from "../../App";
+import "./Weather.css";
 
 const BoxDetails = styled.div`
   border: 3px solid blue;
@@ -87,21 +88,22 @@ const Col2 = styled.div`
 
 const Weather = (prop) => {
   const { weather } = prop;
-  //
+
+  //calculate the utc time dt
   const utcTimestamp = weather.dt;
   const date = new Date(utcTimestamp * 1000).getTimezoneOffset();
   const localTimestamp = utcTimestamp - date * 60;
   const localDate = new Date(localTimestamp * 1000);
   const localDateString = localDate.toLocaleTimeString();
 
-  //
+  //capitalize the First Letter of a string
   function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
   const newString = capitalizeFirstLetter(weather.weather[0].description);
 
-  // calculate Sunrise & Sunset timing...
+  // calculate Sunrise & Sunset timing
   const sunriseTime = new Date(weather.sys.sunrise * 1000).toLocaleTimeString(
     [],
     {
@@ -116,19 +118,19 @@ const Weather = (prop) => {
       minute: "2-digit",
     }
   );
-  //Calculate Wind speed in km..
+  //Calculate Wind speed in km
   const windSpeed = weather.wind.speed;
   const windSpeedKm = (windSpeed * 3600) / 1000;
 
-  //Calculate pressure in hpa..
+  //Calculate pressure in hpa
   const pressure = weather.main.pressure;
   const pressureHpa = pressure / 100;
 
-  //Calcutate Visibility in Km..
+  //Calcutate Visibility in Km
   const visibility = weather.visibility;
   const visibilityKm = visibility / 1000;
 
-  //Calcutate tempreture in ratio...
+  //Calcutate tempreture in ratio
   const tempMax = Math.floor(weather.main.temp_max - 273.15);
   const tempMin = Math.floor(weather.main.temp_min - 273.15);
 
@@ -142,7 +144,6 @@ const Weather = (prop) => {
         <Center>
           <p>{`${Math.floor(weather?.main?.temp - 273)}°C`}</p>
           <div>
-            {/* {WeatherIcons[weather?.weather[0].icon]} */}
             <WeathrIcons>{WeatherIcons[weather?.weather[0].icon]} </WeathrIcons>
             <span>
               {"|"}
@@ -154,7 +155,7 @@ const Weather = (prop) => {
           <p>{`${weather?.weather[0].description}`}</p>
         </Para>
       </BoxDetails>
-      <div style={{ marginTop: "1rem" }}>
+      <div className="displayGrid">
         <Col1>
           <p>
             <>High/Low </>

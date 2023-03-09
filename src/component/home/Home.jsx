@@ -3,6 +3,7 @@ import styled from "styled-components";
 import axios from "axios";
 import Weather from "../weather/Weather";
 
+// Using Styeled component for designing UI
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -49,13 +50,14 @@ const apikey = "d2c261391f52b4be3798da8d6e043660";
 
 const Home = (props) => {
   const [city, setCity] = useState("");
-  const [country, setCountry] = useState();
-  const [weather, setWeather] = useState();
+  const [country, setCountry] = useState("");
+  const [weather, setWeather] = useState("");
   const [showWeather, setShowWeather] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // fetching API data using Axios
     const fetchweatherData = async () => {
       try {
         const response = await axios.get(
@@ -63,13 +65,12 @@ const Home = (props) => {
         );
         setWeather(response.data);
         setShowWeather(true);
-        // console.log(response.data);
       } catch (error) {
-        // console.log(error);
         if (error) {
           alert("Please check the input field");
         }
       }
+
       if (country !== weather.sys.country || !country) {
         return setCountry(weather.sys.country);
       }
