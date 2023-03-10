@@ -1,7 +1,6 @@
 import React, { memo } from "react";
 import styled from "styled-components";
 import { WeatherIcons } from "../../App";
-import "./Weather.css";
 
 const BoxDetails = styled.div`
   border: 3px solid blue;
