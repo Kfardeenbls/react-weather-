@@ -65,14 +65,13 @@ const Home = (props) => {
         );
         setWeather(response.data);
         setShowWeather(true);
+        if (country !== response.data.sys.country || !country) {
+          return setCountry(response.data.sys.country);
+        }
       } catch (error) {
         if (error) {
           alert("Please check the input field");
         }
-      }
-
-      if (country !== weather.sys.country || !country) {
-        return setCountry(weather.sys.country);
       }
     };
     fetchweatherData();

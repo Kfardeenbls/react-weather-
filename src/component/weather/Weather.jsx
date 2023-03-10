@@ -53,7 +53,7 @@ const WeathrIcons = styled.span`
   margin: 10px auto;
 `;
 const Para = styled.div`
-  margin-top: 2rem;
+  margin-top: 1.8rem;
 `;
 const Col1 = styled.div`
   display: flex;
