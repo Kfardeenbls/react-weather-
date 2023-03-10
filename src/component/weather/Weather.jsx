@@ -43,15 +43,17 @@ const Center = styled.div`
     font-size: 1rem;
   }
 `;
+const WeathrIconsStrng = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 const WeathrIcons = styled.span`
   width: 150px;
-  height: 150px;
+  height: 60px;
   margin: 10px auto;
 `;
 const Para = styled.div`
-  p {
-    font-size: 20px;
-  }
+  margin-top: 2rem;
 `;
 const Col1 = styled.div`
   display: flex;
@@ -143,17 +145,15 @@ const Weather = (prop) => {
         <p>As of {localDateString}</p>
         <Center>
           <p>{`${Math.floor(weather?.main?.temp - 273)}°C`}</p>
-          <div>
+          <WeathrIconsStrng>
             <WeathrIcons>{WeatherIcons[weather?.weather[0].icon]} </WeathrIcons>
             <span>
               {"|"}
               {newString}
             </span>
-          </div>
+          </WeathrIconsStrng>
         </Center>
-        <Para>
-          <p>{`${weather?.weather[0].description}`}</p>
-        </Para>
+        <Para>{`${weather?.weather[0].description}`}</Para>
       </BoxDetails>
       <div className="displayGrid">
         <Col1>
