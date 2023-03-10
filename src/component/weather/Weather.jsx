@@ -55,6 +55,9 @@ const WeathrIcons = styled.span`
 const Para = styled.div`
   margin-top: 1.8rem;
 `;
+const DisplayGrid = styled.div`
+  margin-top: 2rem;
+`;
 const Col1 = styled.div`
   display: flex;
   flex-direction: column;
@@ -155,7 +158,7 @@ const Weather = (prop) => {
         </Center>
         <Para>{`${weather?.weather[0].description}`}</Para>
       </BoxDetails>
-      <div className="displayGrid">
+      <DisplayGrid>
         <Col1>
           <p>
             <>High/Low </>
@@ -203,7 +206,7 @@ const Weather = (prop) => {
             <span>{sunsetTime}</span>
           </p>
         </Col2>
-      </div>
+      </DisplayGrid>
     </div>
   );
 };
